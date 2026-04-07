@@ -215,8 +215,8 @@ section { padding: 110px 0; }
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 44px;
-  height: 44px;
+  width: 39px;
+  height: 39px;
   background: rgba(255,255,255,0.08);
   border: 1px solid rgba(255,255,255,0.15);
   border-radius: 8px;
@@ -1392,9 +1392,9 @@ section { padding: 110px 0; }
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.45);
+  background: rgba(0,0,0,0.25);
   z-index: 1100;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(1px);
 }
 body.nav-open .nav-overlay { display: block; }
 
