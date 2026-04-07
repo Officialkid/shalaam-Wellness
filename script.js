@@ -85,4 +85,50 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // === COOKIE BANNER ===
+  const cookieBanner = document.getElementById('cookieBanner');
+  const cookieAccept = document.getElementById('cookieAccept');
+  const cookieDecline = document.getElementById('cookieDecline');
+  if (cookieBanner) {
+    if (localStorage.getItem('sw_cookie_consent')) {
+      cookieBanner.classList.add('hidden');
+    }
+    cookieAccept && cookieAccept.addEventListener('click', () => {
+      localStorage.setItem('sw_cookie_consent', 'accepted');
+      cookieBanner.classList.add('hidden');
+    });
+    cookieDecline && cookieDecline.addEventListener('click', () => {
+      localStorage.setItem('sw_cookie_consent', 'declined');
+      cookieBanner.classList.add('hidden');
+    });
+  }
+
+  // === PRIVACY POLICY MODAL ===
+  const privacyOverlay = document.getElementById('privacyOverlay');
+  const openPrivacyBtns = [
+    document.getElementById('openPrivacy'),
+    document.getElementById('cookieOpenPrivacy')
+  ];
+  const closePrivacy = document.getElementById('closePrivacy');
+
+  function openPrivacyModal() {
+    privacyOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePrivacyModal() {
+    privacyOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  openPrivacyBtns.forEach(btn => {
+    btn && btn.addEventListener('click', openPrivacyModal);
+  });
+  closePrivacy && closePrivacy.addEventListener('click', closePrivacyModal);
+  privacyOverlay && privacyOverlay.addEventListener('click', (e) => {
+    if (e.target === privacyOverlay) closePrivacyModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && privacyOverlay.classList.contains('open')) closePrivacyModal();
+  });
+
 });

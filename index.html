@@ -17,6 +17,7 @@
     <div class="container nav-inner">
       <a href="#home" class="nav-logo">
         <img src="image/Shalaam-wellness-logo.png" alt="Shalam Wellness" class="nav-logo-img"/>
+        <span class="logo-text">Shalam <em>Wellness</em></span>
       </a>
       <ul class="nav-links" id="navLinks">
         <li><a href="#home">Home</a></li>
@@ -860,11 +861,64 @@
     </div>
     <div class="footer-bottom">
       <div class="container footer-bottom-inner">
-        <p>© 2025 Shalam Wellness. All rights reserved.</p>
-        <p>Designed with care for mental wellness.</p>
+        <p>© 2026 Shalam Wellness. All rights reserved.</p>
+        <p>
+          <button class="privacy-link-btn" id="openPrivacy">Privacy Policy</button>
+          &nbsp;·&nbsp; Designed with care for mental wellness.
+        </p>
       </div>
     </div>
   </footer>
+
+  <!-- COOKIE BANNER -->
+  <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie consent">
+    <div class="cookie-content">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#00a8b5" stroke-width="1.5"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2 2"/></svg>
+      <p>We use cookies to improve your experience. Your data is always handled with strict confidentiality in line with our <button class="cookie-policy-link" id="cookieOpenPrivacy">Privacy Policy</button>.</p>
+    </div>
+    <div class="cookie-actions">
+      <button class="btn-cookie-accept" id="cookieAccept">Accept</button>
+      <button class="btn-cookie-decline" id="cookieDecline">Decline</button>
+    </div>
+  </div>
+
+  <!-- PRIVACY POLICY MODAL -->
+  <div class="privacy-overlay" id="privacyOverlay" role="dialog" aria-modal="true" aria-label="Privacy Policy">
+    <div class="privacy-modal">
+      <button class="privacy-close" id="closePrivacy" aria-label="Close Privacy Policy">✕</button>
+      <div class="privacy-header">
+        <img src="image/Shalaam-wellness-logo.png" alt="Shalam Wellness" class="privacy-logo"/>
+        <h2>Privacy Policy</h2>
+        <p class="privacy-effective">Effective: April 2026</p>
+      </div>
+      <div class="privacy-body">
+        <p>Shalam Wellness ("we", "Clare Wamaitha") is committed to protecting your personal information. This policy explains how we collect, use, and safeguard data submitted through our website.</p>
+
+        <h3>1. Information We Collect</h3>
+        <p>When you submit a booking request, we collect: your <strong>full name</strong>, <strong>phone/WhatsApp number</strong>, <strong>email address</strong>, <strong>service type</strong>, <strong>session format preference</strong>, <strong>preferred date and time</strong>, and any optional message you include. We do not collect payment card details on this website.</p>
+
+        <h3>2. How We Use Your Information</h3>
+        <p>Your information is used solely to: respond to your booking request and confirm appointments; deliver the therapeutic services you have requested; comply with the ethical guidelines and legal obligations of the Counsellors and Psychologists Board (CPB) of Kenya.</p>
+
+        <h3>3. Confidentiality</h3>
+        <p>All client information is treated with strict professional confidentiality in accordance with CPB Kenya ethical standards. Information shared in sessions or via this website will <strong>never</strong> be disclosed to third parties except where required by law or to prevent immediate risk of harm to yourself or others.</p>
+
+        <h3>4. Data Security</h3>
+        <p>Booking requests are transmitted via secure HTTPS. We do not store form submissions in a third-party database. Communications are handled directly by Clare Wamaitha and are kept strictly confidential.</p>
+
+        <h3>5. Cookies</h3>
+        <p>This website uses essential cookies to remember your cookie consent preference. No tracking, advertising, or analytics cookies are placed without your consent.</p>
+
+        <h3>6. Your Rights</h3>
+        <p>You have the right to: request access to personal information we hold about you; request correction or deletion of your data; withdraw consent at any time. To exercise any of these rights, contact us at <a href="mailto:wamaithaclare@gmail.com">wamaithaclare@gmail.com</a>.</p>
+
+        <h3>7. Contact</h3>
+        <p>For any privacy-related queries, reach us at:<br/>
+        📧 <a href="mailto:wamaithaclare@gmail.com">wamaithaclare@gmail.com</a><br/>
+        📞 <a href="tel:+254797431765">+254 797 431 765</a></p>
+      </div>
+    </div>
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
