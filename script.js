@@ -13,13 +13,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // === MOBILE NAV TOGGLE ===
   const navToggle = document.getElementById('navToggle');
-  if (navToggle) {
-    navToggle.addEventListener('click', () => {
-      document.body.classList.toggle('nav-open');
-    });
+  const navOverlay = document.getElementById('navOverlay');
+
+  function openNav() {
+    document.body.classList.add('nav-open');
+    navToggle && navToggle.classList.add('active');
+  }
+  function closeNav() {
+    document.body.classList.remove('nav-open');
+    navToggle && navToggle.classList.remove('active');
   }
 
+  if (navToggle) {
+    navToggle.addEventListener('click', () => {
+      document.body.classList.contains('nav-open') ? closeNav() : openNav();
+    });
+  }
+  navOverlay && navOverlay.addEventListener('click', closeNav);
+
+  // Close nav when any nav link is clicked
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', closeNav);
+  });
+
   // === BOOKING FORM LOGIC WILL BE ADDED HERE ===
+
+  // === FAQ ACCORDION ===
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      // Close all open items
+      document.querySelectorAll('.faq-item.open').forEach(openItem => {
+        openItem.classList.remove('open');
+        openItem.querySelector('.faq-a').style.maxHeight = null;
+      });
+      // Open clicked item if it was closed
+      if (!isOpen) {
+        item.classList.add('open');
+        item.querySelector('.faq-a').style.maxHeight = item.querySelector('.faq-a').scrollHeight + 'px';
+      }
+    });
+  });
 
   // === BOOKING FORM LOGIC ===
   const bookingForm = document.getElementById('bookingForm');
@@ -35,6 +70,27 @@ document.addEventListener('DOMContentLoaded', () => {
       dateInput.min = `${yyyy}-${mm}-${dd}`;
     }
 
+    // === FORMAT PRICE NOTICE ===
+    const formatNotice = document.getElementById('formatNotice');
+    if (formatNotice) {
+      const formatRadios = bookingForm.querySelectorAll('input[name="format"]');
+      formatRadios.forEach(radio => {
+        radio.addEventListener('change', () => {
+          if (radio.value === 'online') {
+            formatNotice.innerHTML = 'ℹ️ By choosing <strong>Online</strong>, you agree to a session rate of <strong>KES 1,500</strong>.';
+            formatNotice.className = 'format-notice show';
+          } else if (radio.value === 'inperson') {
+            formatNotice.innerHTML = 'ℹ️ By choosing <strong>In-Person</strong>, you agree to a session rate of <strong>KES 2,500</strong>.';
+            formatNotice.className = 'format-notice show';
+          } else {
+            const label = radio.value === 'custom' ? 'Custom' : 'Either';
+            formatNotice.innerHTML = `📋 For <strong>${label}</strong>, your session rate will be advised by your counsellor.`;
+            formatNotice.className = 'format-notice show advisory';
+          }
+        });
+      });
+    }
+
     bookingForm.addEventListener('submit', function(e) {
       e.preventDefault();
 
@@ -43,7 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const phone = document.getElementById('fphone').value.trim();
       const email = document.getElementById('femail').value.trim();
       const service = document.getElementById('fservice').value;
-      const format = bookingForm.querySelector('input[name="format"]:checked')?.value || '';
+      const formatRadio = bookingForm.querySelector('input[name="format"]:checked');
+      const format = formatRadio ? formatRadio.value : '';
       const date = document.getElementById('fdate').value;
       const time = document.getElementById('ftime').value;
       const message = document.getElementById('fmessage').value.trim();
@@ -54,33 +111,30 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Compose WhatsApp message
-      let waMsg = `Hello Shalam Wellness, I would like to book a session.\n`;
-      waMsg += `Name: ${name}\n`;
-      waMsg += `Phone: ${phone}\n`;
-      if (email) waMsg += `Email: ${email}\n`;
-      waMsg += `Service: ${service}\n`;
-      waMsg += `Format: ${format}\n`;
-      waMsg += `Preferred Date: ${date}\n`;
-      waMsg += `Preferred Time: ${time}\n`;
-      if (message) waMsg += `Message: ${message}`;
+      // Format the date for readability
+      const dateFormatted = date ? new Date(date + 'T00:00').toLocaleDateString('en-KE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : date;
+
+      // Compose well-spaced WhatsApp message
+      let waMsg = `Hello Shalam Wellness, I would love to book a session with you! 🌿\n\n`;
+      waMsg += `Here are my details:\n\n`;
+      waMsg += `📌 Name: ${name}\n`;
+      waMsg += `📞 Phone: ${phone}\n`;
+      if (email) waMsg += `📧 Email: ${email}\n`;
+      waMsg += `🩺 Service: ${service}\n`;
+      waMsg += `📍 Format: ${format.charAt(0).toUpperCase() + format.slice(1)}\n`;
+      waMsg += `📅 Preferred Date: ${dateFormatted}\n`;
+      waMsg += `⏰ Preferred Time: ${time}\n`;
+      if (message) waMsg += `\n💬 Note: ${message}`;
 
       // WhatsApp API link
       const waNumber = '254797431765';
       const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMsg)}`;
 
-      // Show confirmation and open WhatsApp
-      if (window.confirm('Send your booking request via WhatsApp?')) {
-        window.open(waUrl, '_blank');
-        // Optionally show success message in form
-        if (formSuccess) {
-          formSuccess.style.display = 'block';
-          setTimeout(() => { formSuccess.style.display = 'none'; }, 6000);
-        }
-        bookingForm.reset();
-        // Restore default radio button (Either)
-        const eitherRadio = bookingForm.querySelector('input[name="format"][value="either"]');
-        if (eitherRadio) eitherRadio.checked = true;
+      // Open WhatsApp and show success — hide the form
+      window.open(waUrl, '_blank');
+      bookingForm.style.display = 'none';
+      if (formSuccess) {
+        formSuccess.style.display = 'flex';
       }
     });
   }
